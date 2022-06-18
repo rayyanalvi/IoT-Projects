@@ -1,0 +1,45 @@
+// The following code will turn-on two LEDs at the same simaltaneously but much more things can be done at the same time.
+
+unsigned long milliseconds1 = millis();                         // storing starting time of the program to further use for making decisions
+unsigned long milliseconds2 = millis();                         // storing starting time of the program to further use for making decisions
+
+int ledState1 = 2;                                              // first LED on pin 2
+int ledState2 = 4;                                              // second LED on pin 4
+
+void setup() {
+  Serial.begin(115200);                                         // starting serial communication
+  pinMode(ledState1, OUTPUT);                                   // setting the mode of LED pin 2 as output
+  pinMode(ledState2, OUTPUT);                                   // setting the mode of LED pin 4 as output
+
+}
+
+void loop() {
+  unsigned long updateMilliseconds = millis();                  // storing the recursive time in updateMilliseconds
+
+  if ((updateMilliseconds - milliseconds1) >= 2500)             // setting condition for turning on the LED on pin 2 after every 2.5 seconds
+  {
+    digitalWrite(ledState1, HIGH);                              // turning on the LED on pin 2
+    Serial.println(" Turning ON LED 2");                        // writing "LED 2 ON" message on serial monitor
+    Serial.print(milliseconds1);                                // checking the time interval every time when the LED blinks
+    Serial.println(" Milliseconds");
+    milliseconds1 = updateMilliseconds;                         // passing the updated time to milliseconds1 variable
+    delay(250);                                                 // delay for the LED to blink
+  }
+  
+  if ((updateMilliseconds - milliseconds2) >= 5000)             // setting condition for turning on the LED on pin 2 after every 5 seconds
+  {
+    digitalWrite(ledState2, HIGH);                              // turning on the LED on pin 4
+    Serial.println(" Turning ON LED 4");                        // writing "LED 4 ON" message on serial monitor
+    Serial.print(milliseconds1);
+    Serial.println(" Milliseconds");
+    milliseconds2 = updateMilliseconds;
+    delay(250);
+  }
+
+  else
+  {
+    digitalWrite(ledstate1, LOW);                               // setting the LED on pin 2 off by default
+    digitalWrite(ledstate2, LOW);                               // setting the LED on pin 4 off by default
+  }
+
+}
